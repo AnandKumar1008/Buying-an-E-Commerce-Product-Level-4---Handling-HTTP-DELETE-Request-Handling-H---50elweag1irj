@@ -1,21 +1,57 @@
-const fs = require('fs');
-const express = require('express');
+// const fs = require('fs');
+// const express = require('express');
+// const app = express();
+
+
+// // Importing products from products.json file
+// const products = JSON.parse(
+//     fs.readFileSync(`${__dirname}/data/product.json`)
+// );
+
+
+// // Middlewares
+// app.use(express.json());
+
+// // Write PATCH endpoint to buy a product for the client here
+// // Endpoint /api/v1/products/:id
+
+
+
+
+// module.exports = app;
+const fs = require("fs");
+const express = require("express");
 const app = express();
 
-
 // Importing products from products.json file
-const products = JSON.parse(
-    fs.readFileSync(`${__dirname}/data/product.json`)
-);
-
+const products = JSON.parse(fs.readFileSync(`${__dirname}/data/product.json`));
 
 // Middlewares
 app.use(express.json());
+app.patch("/api/v1/products/:id", (req, res) => {
+  const id = req.params.id * 1;
+  const product = products.find((item) => item.id == id);
+  if (!product) {
+    res.status(404).json({ status: "failed", message: "Product not found!" });
+  } else if (product.quantity == 0) {
+    res
+      .status(404)
+      .json({ status: "success", message: `Product ${id}, Out of stock!` });
+  } else {
+    res.status(200).json({
+      status: "success",
+
+      message: "Thank you for purchasing Product 1",
+
+      product: {
+        ...product,
+      },
+    });
+  }
+});
 
 // Write PATCH endpoint to buy a product for the client here
 // Endpoint /api/v1/products/:id
 
-
-
-
 module.exports = app;
+
