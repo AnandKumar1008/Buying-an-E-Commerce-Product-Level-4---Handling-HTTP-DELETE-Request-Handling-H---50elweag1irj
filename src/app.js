@@ -36,12 +36,12 @@ app.patch("/api/v1/products/:id", (req, res) => {
   } else if (product.quantity == 0) {
     res
       .status(404)
-      .json({ status: "success", message: `Product ${id}, Out of stock!` });
+      .json({ status: "success", message: `${product.name}, Out of stock!` });
   } else {
     res.status(200).json({
       status: "success",
 
-      message: "Thank you for purchasing Product 1",
+      message: `Thank you for purchasing ${product.name}`,
 
       product: {
         ...product,
@@ -54,4 +54,3 @@ app.patch("/api/v1/products/:id", (req, res) => {
 // Endpoint /api/v1/products/:id
 
 module.exports = app;
-
